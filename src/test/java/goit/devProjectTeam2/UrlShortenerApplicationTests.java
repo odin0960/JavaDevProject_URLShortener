@@ -1,4 +1,4 @@
-package goit.DevProjectTeam2;
+package goit.devProjectTeam2;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
