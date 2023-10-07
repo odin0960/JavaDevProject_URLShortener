@@ -1,6 +1,6 @@
 create TABLE IF NOT EXISTS users
 (
-    id       BIGINT  PRIMARY KEY AUTO_INCREMENT,
+    id       BIGINT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(200)  NOT NULL UNIQUE CHECK (CHAR_LENGTH(username) >= 3),
     password VARCHAR(2000) NOT NULL CHECK (CHAR_LENGTH(password) >= 8),
     role     VARCHAR(5)    NOT NULL DEFAULT 'USER'
@@ -20,8 +20,8 @@ create TABLE IF NOT EXISTS links
 
 INSERT INTO users (username, password, role)
 VALUES ('admin',
-        '$2a$12$..wl30OG0nSU.2zLp7mxaeFxbuVySaIgdvpfQinWunXHGIRMWbZd2', - -admin
-            'ADMIN');
+        '$2a$12$..wl30OG0nSU.2zLp7mxaeFxbuVySaIgdvpfQinWunXHGIRMWbZd2', --admin
+        'ADMIN');
 
 
 
