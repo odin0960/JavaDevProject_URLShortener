@@ -1,6 +1,5 @@
 package goit.devProjectTeam2.entity.dto;
 
-import goit.devProjectTeam2.entity.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,7 +11,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
-import java.time.ZonedDateTime;
 
 @Getter
 @Setter
@@ -26,7 +24,7 @@ public class LinkDTO {
     private String longLink;
     private String token;
     private Timestamp createDate;
-    private ZonedDateTime expireDate;
+    private Timestamp expireDate;
     @ManyToOne
     @JoinColumn(name = "id", nullable = false)
     private UserDTO userId;
