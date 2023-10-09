@@ -1,4 +1,4 @@
 package goit.devProjectTeam2.link;
 
-public class LinkRepository {
+public interface LinkRepository {
 }

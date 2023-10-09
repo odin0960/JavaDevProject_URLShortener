@@ -9,12 +9,12 @@ import java.sql.Timestamp;
 @Setter
 public class LinkDTO {
 
-    private Long id;
+    private Long linkId;
     private String longLink;
     private String token;
-    private Timestamp createDate;
-    private Timestamp expireDate;
-    private UserDTO userId;
-    private Integer count;
+//    private Timestamp createDate;
+//    private Timestamp expireDate;
+//    private UserDTO userId;
+//    private Integer count;
 
 }

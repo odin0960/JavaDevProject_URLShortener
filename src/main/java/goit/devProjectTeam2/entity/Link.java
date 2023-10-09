@@ -20,14 +20,14 @@ public class Link {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long linkId;
     private String longLink;
     private String token;
     private Timestamp createDate;
     private Timestamp expireDate;
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
-    private User userId;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
     private Integer count;
 
 }
