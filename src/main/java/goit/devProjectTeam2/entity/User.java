@@ -1,14 +1,12 @@
 package goit.devProjectTeam2.entity;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,7 +17,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
     @Column(unique = true)
     private String email;
     @Column(unique = true)
@@ -27,11 +25,14 @@ public class User {
     private String password;
     private String role;
 
+    @OneToMany(mappedBy = "userId")
+    private Set<Link> links = new HashSet<>();
+
     public User() {
     }
 
-    public User(Long id) {
-        this.id = id;
+    public User(Long userId) {
+        this.userId = userId;
     }
 
 }

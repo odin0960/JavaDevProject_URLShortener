@@ -27,18 +27,22 @@ public class Link {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long linkId;
     private String longLink;
     private String token;
     @CreationTimestamp
     private Timestamp createDate;
     private Timestamp expireDate;
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
     private User userId;
     private Integer count = 0;
 
     public Link() {
     }
 
+    public Link(String longLink, User userId) {
+        this.longLink = longLink;
+        this.userId = userId;
+    }
 }

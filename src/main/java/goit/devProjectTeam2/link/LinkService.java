@@ -43,7 +43,7 @@ public class LinkService implements ServiceInterface<Link> {
         List<Link> listAllForSpecifiedUserId = new ArrayList<>();
         listAll().stream().forEach(
                 l -> {
-                    if (l.getUserId().getId().equals(id)) {
+                    if (l.getUserId().getUserId().equals(id)) {
                         listAllForSpecifiedUserId.add(l);
                     }
                 });

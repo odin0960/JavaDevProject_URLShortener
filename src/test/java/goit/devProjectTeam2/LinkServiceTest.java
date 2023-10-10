@@ -38,7 +38,7 @@ class LinkServiceTest {
     @BeforeEach
     public void setup() {
         link = Link.builder()
-                .id(1L)
+                .linkId(1L)
                 .longLink("https://test.test1")
                 .token("test1")
                 .createDate(Timestamp.valueOf("2023-10-09 16:34:29.72075"))
@@ -52,8 +52,8 @@ class LinkServiceTest {
     @DisplayName("givenIdThenShouldReturnLinkOfThatId")
     @Order(1)
     void givenIdThenShouldReturnLinkOfThatId() {
-        given(linkRepository.findById(link.getId())).willReturn(Optional.of(link));
-        Link savedLink = linkService.getById(link.getId());
+        given(linkRepository.findById(link.getLinkId())).willReturn(Optional.of(link));
+        Link savedLink = linkService.getById(link.getLinkId());
         assertThat(savedLink).isNotNull();
         assertEquals(link, savedLink);
     }
@@ -62,7 +62,7 @@ class LinkServiceTest {
     @DisplayName("givenNonExistIdThenShouldThrowNoSuchElementException")
     @Order(2)
     void givenNonExistIdThenShouldThrowNoSuchElementException() {
-        given(linkRepository.findById(link.getId())).willReturn(Optional.of(link));
+        given(linkRepository.findById(link.getLinkId())).willReturn(Optional.of(link));
         assertThrows(NoSuchElementException.class, () -> {
             linkService.getById(5L);
         });
@@ -93,7 +93,7 @@ class LinkServiceTest {
     @Order(5)
     void givenLinkListThenShouldReturnAllLinkList() {
         Link link1 = Link.builder()
-                .id(2L)
+                .linkId(2L)
                 .longLink("https://test.test2")
                 .token("test2")
                 .createDate(Timestamp.valueOf("2023-10-07 15:55:29.72075"))
@@ -117,7 +117,7 @@ class LinkServiceTest {
     @Order(6)
     void givenUserIdThenShouldReturnListOfAllListsByThatUserId() {
         Link link3 = Link.builder()
-                .id(3L)
+                .linkId(3L)
                 .longLink("https://test.test3")
                 .token("test3")
                 .createDate(Timestamp.valueOf("2023-10-03 15:55:29.72075"))
@@ -127,7 +127,7 @@ class LinkServiceTest {
                 .build();
         given(linkRepository.findAll()).willReturn(List.of(link, link3));
 
-        List<Link> linkList = linkService.listAllByUserId(link.getUserId().getId());
+        List<Link> linkList = linkService.listAllByUserId(link.getUserId().getUserId());
 
         assertThat(linkList).isNotNull();
         assertThat(linkList.size()).isEqualTo(1);
@@ -151,7 +151,7 @@ class LinkServiceTest {
     @Order(8)
     void givenExpireDateShouldReturnAllLinksMoreThenExpirationDate() {
         Link link4 = Link.builder()
-                .id(4L)
+                .linkId(4L)
                 .longLink("https://test.test4")
                 .token("test4")
                 .createDate(Timestamp.valueOf("2023-10-04 15:55:29.72075"))
@@ -182,9 +182,9 @@ class LinkServiceTest {
     @DisplayName("givenLinkThenShouldIncreaseClickCounter")
     @Order(10)
     void givenLinkThenShouldIncreaseClickCounter() {
-        given(linkRepository.findById(link.getId())).willReturn(Optional.of(link));
-        linkService.increaseClickCounter(link.getId());
-        Link savedLink = linkService.getById(link.getId());
+        given(linkRepository.findById(link.getLinkId())).willReturn(Optional.of(link));
+        linkService.increaseClickCounter(link.getLinkId());
+        Link savedLink = linkService.getById(link.getLinkId());
         System.out.println(savedLink);
         assertThat(savedLink).isNotNull();
         assertEquals(1, savedLink.getCount());
