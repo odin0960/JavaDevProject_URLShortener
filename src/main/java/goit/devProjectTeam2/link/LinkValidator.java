@@ -5,7 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class LinkValidator {
-    public static void checkURL() {
+    public static void checkLink() {
         String urlToCheck = "";
         try {
             URL url = new URL(urlToCheck);
