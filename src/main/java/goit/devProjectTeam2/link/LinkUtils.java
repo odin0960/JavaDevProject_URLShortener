@@ -1,5 +1,7 @@
 package goit.devProjectTeam2.link;
 
+import goit.devProjectTeam2.ProjectConstant;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,7 +30,7 @@ public class LinkUtils {
 
         StringBuilder result = new StringBuilder();
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < ProjectConstant.CHARACTER_LENGTHS; i++) {
             Collections.shuffle(characters);
             result.append(characters.get(0));
         }
@@ -38,7 +40,7 @@ public class LinkUtils {
 
     public static Timestamp calculateExpireDate() {
         long currentTime = System.currentTimeMillis();
-        long plus72Hours = currentTime + (72 * 60 * 60 * 1000);
+        long plus72Hours = currentTime + (ProjectConstant.HOURS_TO_CALCULATE_EXPIRE_DATE * 60 * 60 * 1000);
         return new Timestamp(plus72Hours);
     }
 

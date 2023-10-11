@@ -36,7 +36,7 @@ public class Link {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
     private User userId;
-    private Integer count = 0;
+    private Long count = 0L;
 
     public Link() {
     }
@@ -45,4 +45,5 @@ public class Link {
         this.longLink = longLink;
         this.userId = userId;
     }
+
 }
