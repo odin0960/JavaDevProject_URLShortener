@@ -17,6 +17,7 @@ public class UserController {
     private UserServiceInterface userServiceInterface;
 
     private UserDTO userDTO;
+    private User user;
 
     @GetMapping("/index")
     public String home(){
@@ -26,28 +27,28 @@ public class UserController {
     @GetMapping("/register")
     public ModelAndView showRegistrationForm() {
         ModelAndView result = new ModelAndView("register");
-        result.addObject("user", new UserDTO());
+        result.addObject("user", new User());
         return result;
 
     }
 
-//    @PostMapping("/register/save")
-//    public ModelAndView addUser(@Valid @ModelAttribute("user") UserDTO userDTO,
-//           BindingResult result) {
-//        User existingUser = userServiceInterface.findUserByEmail(userDTO.getEmail());
-//        if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
-//            result.rejectValue("email", null,
-//                    "There is already an account registered with the same email");
-//        }
-//        if (result.hasErrors()) {
-//            new ModelAndView().addObject("user", userDTO);
-//            return new ModelAndView("redirect:/register");
-//
-//        }
-//        userServiceInterface.saveUser(userDTO);
-//        return new ModelAndView("redirect:/login");
-//
-//    }
+    @PostMapping("/register/save")
+    public ModelAndView addUser(@Valid @ModelAttribute("user") UserDTO userDTO,
+           BindingResult result) {
+        User existingUser = userServiceInterface.findUserByEmail(userDTO.getEmail());
+        if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
+            result.rejectValue("email", null,
+                    "There is already an account registered with the same email");
+        }
+        if (result.hasErrors()) {
+            new ModelAndView().addObject("user", userDTO);
+            return new ModelAndView("redirect:/register");
+
+        }
+        userServiceInterface.saveUser(userDTO);
+        return new ModelAndView("redirect:/login");
+
+    }
     @GetMapping("/login")
     public String login(){
         return "login";
