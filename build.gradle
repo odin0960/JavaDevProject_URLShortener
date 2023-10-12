@@ -89,3 +89,8 @@ compileJava {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+bootJar {
+	archiveBaseName = 'LinkShortener'
+	archiveVersion =  'V1.0'
+}

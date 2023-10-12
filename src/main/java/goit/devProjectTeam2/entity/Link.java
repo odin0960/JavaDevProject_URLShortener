@@ -7,8 +7,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
@@ -16,6 +20,9 @@ import java.sql.Timestamp;
 @Setter
 @Entity
 @Table(name = "links")
+@AllArgsConstructor
+@ToString
+@Builder
 public class Link {
 
     @Id
@@ -23,11 +30,20 @@ public class Link {
     private Long linkId;
     private String longLink;
     private String token;
+    @CreationTimestamp
     private Timestamp createDate;
     private Timestamp expireDate;
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-    private Integer count;
+    @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
+    private User userId;
+    private Long count = 0L;
+
+    public Link() {
+    }
+
+    public Link(String longLink, User userId) {
+        this.longLink = longLink;
+        this.userId = userId;
+    }
 
 }
