@@ -1,25 +1,26 @@
 package goit.devProjectTeam2.link;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import goit.devProjectTeam2.entity.LinkValidatorEntity;
+
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import java.util.Set;
 
 public class LinkValidator {
-    public static void checkLink() {
-        String urlToCheck = "";
-        try {
-            URL url = new URL(urlToCheck);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            int statusCode = connection.getResponseCode();
-            if (statusCode == 200) {
-                System.out.println("Посилання " + urlToCheck + " повертає код статусу 200 (OK).");
-            } else {
-                System.out.println("Посилання " + urlToCheck + " повертає код статусу " + statusCode);
+    public static void checkLink(LinkValidatorEntity urlToCheck) {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+
+        Set<ConstraintViolation<LinkValidatorEntity>> violations = validator.validate(urlToCheck);
+
+        if (violations.isEmpty()) {
+            System.out.println("Link is valid");
+        } else {
+            for (ConstraintViolation<LinkValidatorEntity> violation : violations) {
+                System.err.println("Validation error: " + violation.getMessage());
             }
-            connection.disconnect();
-        } catch (IOException e) {
-            System.err.println("Виникла помилка: " + e.getMessage());
         }
     }
 }
