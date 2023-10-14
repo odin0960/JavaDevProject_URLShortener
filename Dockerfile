@@ -6,8 +6,10 @@ WORKDIR /app
 #ADD build/libs/LinkShortener-V1.0.jar app.jar
 COPY build/libs/LinkShortener-V1.0.jar app.jar
 EXPOSE 9999
-ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "/app.jar"]
-#ENTRYPOINT ["java -Dspring.profiles.active=prod -jar /app.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "app.jar"]
+#ENTRYPOINT ["java -Dspring.profiles.active=prod -jar app.jar"]
 
 #to build
 #docker build -t linkshortener:1.0 .
+#run
+#docker run -d -p 8080:9999 -t linkshortener:1.0
