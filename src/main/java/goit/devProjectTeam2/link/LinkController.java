@@ -35,10 +35,8 @@ public class LinkController {
     public RedirectView create(@ModelAttribute Link link) {
         RedirectView redirectView = new RedirectView();
         redirectView.setUrl("/v1/user/link/create");
-
         linkService.add(link);
         linkService.increaseClickCounter(link.getCount());
-
         return redirectView;
     }
 

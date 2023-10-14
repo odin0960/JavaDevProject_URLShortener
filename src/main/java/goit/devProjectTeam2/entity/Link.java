@@ -7,17 +7,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.boot.autoconfigure.quartz.QuartzDataSource;
 
 import java.sql.Timestamp;
 
 @Getter
 @Setter
+//@Data
 @Entity
 @Table(name = "links")
 @AllArgsConstructor

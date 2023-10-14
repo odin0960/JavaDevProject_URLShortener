@@ -44,7 +44,7 @@ class LinkServiceTest {
                 .createDate(Timestamp.valueOf("2023-10-09 16:34:29.72075"))
                 .expireDate(Timestamp.valueOf("2023-10-11 00:00:11.0"))
                 .userId(new User(1L))
-                .count(0)
+                .count(0L)
                 .build();
     }
 
@@ -63,9 +63,7 @@ class LinkServiceTest {
     @Order(2)
     void givenNonExistIdThenShouldThrowNoSuchElementException() {
         given(linkRepository.findById(link.getLinkId())).willReturn(Optional.of(link));
-        assertThrows(NoSuchElementException.class, () -> {
-            linkService.getById(5L);
-        });
+        assertThrows(NoSuchElementException.class, () -> linkService.getById(5L));
     }
 
     @Test
@@ -99,7 +97,7 @@ class LinkServiceTest {
                 .createDate(Timestamp.valueOf("2023-10-07 15:55:29.72075"))
                 .expireDate(Timestamp.valueOf("2023-10-10 13:33:11.0"))
                 .userId(new User(2L))
-                .count(1)
+                .count(1L)
                 .build();
 
         given(linkRepository.findAll()).willReturn(List.of(link, link1));
@@ -123,7 +121,7 @@ class LinkServiceTest {
                 .createDate(Timestamp.valueOf("2023-10-03 15:55:29.72075"))
                 .expireDate(Timestamp.valueOf("2023-10-12 13:33:11.0"))
                 .userId(new User(3L))
-                .count(1)
+                .count(1L)
                 .build();
         given(linkRepository.findAll()).willReturn(List.of(link, link3));
 
@@ -157,7 +155,7 @@ class LinkServiceTest {
                 .createDate(Timestamp.valueOf("2023-10-04 15:55:29.72075"))
                 .expireDate(Timestamp.valueOf("2023-10-07 13:33:11.0"))
                 .userId(new User(3L))
-                .count(1)
+                .count(1L)
                 .build();
         given(linkRepository.findAll()).willReturn(List.of(link, link4));
 

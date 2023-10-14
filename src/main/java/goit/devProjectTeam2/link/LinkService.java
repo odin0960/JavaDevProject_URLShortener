@@ -73,6 +73,7 @@ public class LinkService implements ServiceInterface<Link> {
     public Link increaseClickCounter(Long id) {
         Link recievedLink = getById(id);
         recievedLink.setCount(recievedLink.getCount() + 1);
+
         return linkRepository.save(recievedLink);
     }
 
