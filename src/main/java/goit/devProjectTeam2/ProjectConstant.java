@@ -1,10 +1,8 @@
 package goit.devProjectTeam2;
 
 import lombok.Getter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter
-//@ConfigurationProperties(prefix = "app")
 public class ProjectConstant {
 
     private ProjectConstant() {
