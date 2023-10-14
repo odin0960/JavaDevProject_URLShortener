@@ -13,6 +13,6 @@ PROD_DB_LINK=jdbc:postgresql://localhost:5432/shortlink_db;
 PROD_DB_USERNAME=postgres;
 PROD_DB_PASSWORD=postgres;
 
-TOKEN_LENGTH=7;
+TOKEN_LENGTH=5;
 VALIDITY_PERIOD=72;
 APP_VERSION=v.1.0;
