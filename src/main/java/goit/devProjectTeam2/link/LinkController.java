@@ -4,6 +4,7 @@ import goit.devProjectTeam2.entity.Link;
 import goit.devProjectTeam2.entity.User;
 import goit.devProjectTeam2.entity.dto.LinkDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,6 +18,23 @@ import java.sql.Timestamp;
 public class LinkController {
 
     private final LinkService linkService;
+
+    @GetMapping("/{token}")
+    @Cacheable(value = "links", key = "#token", sync = true)
+    public String redirectByToken(@PathVariable String token) {
+        Link linkByToken = linkService.getLinkByToken(token);
+        linkService.increaseClickCounter(linkByToken.getLinkId());
+        return "redirect:"+ linkByToken.getLongLink();
+    }
+
+//    @RequestMapping("/{token}")
+//    @Cacheable(value = "links", key = "#token", sync = true)
+//    public ModelAndView redirectByToken(@PathVariable String token) {
+//        Link linkByToken = linkService.getLinkByToken(token);
+//        linkService.increaseClickCounter(linkByToken.getLinkId());
+//        return new ModelAndView("redirect:" + linkByToken.getLongLink());
+//    }
+
     @GetMapping(value = "/user/link/create")
     public String createLink() {
         return ("create-link");
