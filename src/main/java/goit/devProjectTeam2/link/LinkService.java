@@ -4,7 +4,7 @@ import goit.devProjectTeam2.ServiceInterface;
 import goit.devProjectTeam2.entity.Link;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,11 @@ public class LinkService implements ServiceInterface<Link> {
     public Link getById(Long id) {
         return linkRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Link with such id doesn't found"));
+    }
+
+    public Link getLinkByToken(String token) {
+        return linkRepository.getLinkByToken(token)
+                .orElseThrow(() -> new NoSuchElementException("Link with such token doesn't found"));
     }
 
     @Override
@@ -43,7 +48,7 @@ public class LinkService implements ServiceInterface<Link> {
         List<Link> listAllForSpecifiedUserId = new ArrayList<>();
         listAll().stream().forEach(
                 l -> {
-                    if (l.getUserId().getUserId().equals(id)) {
+                    if (l.getUser().getUserId().equals(id)) {
                         listAllForSpecifiedUserId.add(l);
                     }
                 });
@@ -70,9 +75,11 @@ public class LinkService implements ServiceInterface<Link> {
         return shortLink;
     }
 
+    @Transactional
     public Link increaseClickCounter(Long id) {
         Link recievedLink = getById(id);
         recievedLink.setCount(recievedLink.getCount() + 1);
+
         return linkRepository.save(recievedLink);
     }
 
