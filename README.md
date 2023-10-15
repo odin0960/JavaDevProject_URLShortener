@@ -9,9 +9,9 @@ LOCAL_DB_LINK=jdbc:h2:mem:shortlink;
 LOCAL_DB_USERNAME=sa;
 LOCAL_DB_PASSWORD=password;
 
-PROD_DB_LINK=jdbc:postgresql://localhost:5432/shortlink_db;
-PROD_DB_USERNAME=postgres;
-PROD_DB_PASSWORD=postgres;
+PROD_DB_LINK=jdbc:postgresql://shortlink-1.cjfbwpo4wfwq.eu-north-1.rds.amazonaws.com:5432/shortlink_db;
+PROD_DB_USERNAME=userprod;
+PROD_DB_PASSWORD=postgrespass;
 
 TOKEN_LENGTH=5;
 VALIDITY_PERIOD=72;

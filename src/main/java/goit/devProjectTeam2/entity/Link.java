@@ -33,7 +33,7 @@ public class Link {
     private Timestamp expireDate;
     @ManyToOne
 //    @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
 //    private User userId;
     private User user;
     private Long count = 0L;
