@@ -1,10 +1,10 @@
-package goit.devProjectTeam2.security.jwt;
+package goit.devProjectTeam2.user.dto;
 
 
 import lombok.Data;
 
 @Data
-public class JwtRequest {
+public class LoginModel {
 	private String username;
 	private String password;
 }
