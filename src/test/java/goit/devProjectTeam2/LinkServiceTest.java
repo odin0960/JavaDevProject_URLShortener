@@ -175,7 +175,7 @@ class LinkServiceTest {
     @DisplayName("givenLinkThenShouldGenerateShortLink")
     @Order(9)
     void givenLinkThenShouldGenerateShortLink() {
-        String shortLink = linkService.generateShortLink(link);
+        String shortLink = linkService.generateToken(link);
         System.out.println(shortLink);
         assertThat(shortLink).isNotNull();
         assertThat(shortLink).hasSize(7);

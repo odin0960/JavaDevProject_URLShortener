@@ -1,19 +1,17 @@
 package goit.devProjectTeam2.link;
 
 import goit.devProjectTeam2.entity.Link;
-import goit.devProjectTeam2.entity.User;
-import goit.devProjectTeam2.entity.dto.LinkDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.sql.Timestamp;
 
 @RequiredArgsConstructor
-@RestController
+@Controller
 @RequestMapping("/v1")
 public class LinkController {
 
@@ -21,59 +19,45 @@ public class LinkController {
 
     @GetMapping("/{token}")
     @Cacheable(value = "links", key = "#token", sync = true)
-    public String redirectByToken(@PathVariable String token) {
+    public ModelAndView redirectByToken(@PathVariable String token) {
         Link linkByToken = linkService.getLinkByToken(token);
         linkService.increaseClickCounter(linkByToken.getLinkId());
-        return "redirect:"+ linkByToken.getLongLink();
+        return new ModelAndView("redirect:" + linkByToken.getLongLink());
     }
 
-//    @RequestMapping("/{token}")
-//    @Cacheable(value = "links", key = "#token", sync = true)
-//    public ModelAndView redirectByToken(@PathVariable String token) {
-//        Link linkByToken = linkService.getLinkByToken(token);
-//        linkService.increaseClickCounter(linkByToken.getLinkId());
-//        return new ModelAndView("redirect:" + linkByToken.getLongLink());
-//    }
-
-    @GetMapping(value = "/user/link/create")
-    public String createLink() {
-        return ("create-link");
+    @GetMapping("/user/link/create")
+    public ModelAndView getCreatePage(Link link) {
+        ModelAndView modelAndView = new ModelAndView("create");
+        return modelAndView.addObject("link", link);
     }
 
-    @PostMapping(produces="application/json", value = "/user/link/create")
-    public RedirectView createJson(@RequestBody LinkDTO linkDTO) {
-        RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("/v1/user/link/create");
-        Link link = new Link();
-        link.setLinkId(linkDTO.getLinkId());
-        linkService.add(link);
-        return redirectView;
-    }
     @PostMapping(value = "/user/link/create")
-    public RedirectView create(@ModelAttribute Link link) {
-        RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("/v1/user/link/create");
+    public ModelAndView createJson(@Valid @ModelAttribute("link") Link link) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/v1/user/allLinks");
         linkService.add(link);
-        linkService.increaseClickCounter(link.getCount());
-        return redirectView;
+        return modelAndView;
     }
 
-    @GetMapping(value = "/user/all/links" )
+    @GetMapping(value = "/user/allLinks")
     public ModelAndView getAllLinks() {
-        ModelAndView modelAndView = new ModelAndView("link");
+        ModelAndView modelAndView = new ModelAndView("list");
         modelAndView.addObject("links", linkService.listAll());
         return modelAndView;
     }
 
-    @GetMapping(value = "/user/active/links" )
+    @GetMapping(value = "/user/activeLinks")
     public ModelAndView getActiveLinks() {
-        ModelAndView modelAndView = new ModelAndView("activeLink");
-        modelAndView.addObject("activeLinks", linkService.findAllMoreThenExpirationDate(new Timestamp(System.currentTimeMillis())));
+        ModelAndView modelAndView = new ModelAndView("activeLinks");
+        modelAndView.addObject("activeLinks",
+                linkService.findAllMoreThenExpirationDate(new Timestamp(System.currentTimeMillis())));
         return modelAndView;
     }
 
-    @PostMapping("/user/link/delete")
-    public void delete(@RequestParam long linkId) {
+    @RequestMapping("/user/link/delete/{linkId}")
+    public ModelAndView delete(@PathVariable("linkId") long linkId) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/v1/user/allLinks");
         linkService.deleteById(linkId);
+        return modelAndView;
     }
+
 }
