@@ -9,17 +9,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.boot.autoconfigure.quartz.QuartzDataSource;
 
 import java.sql.Timestamp;
 
-@Getter
-@Setter
-//@Data
+@Data
 @Entity
 @Table(name = "links")
 @AllArgsConstructor
-@ToString
 @Builder
 public class Link {
 
@@ -32,19 +28,15 @@ public class Link {
     private Timestamp createDate;
     private Timestamp expireDate;
     @ManyToOne
-//    @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
     @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
-//    private User userId;
     private User user;
     private Long count = 0L;
 
     public Link() {
     }
 
-//    public Link(String longLink, User userId) {
     public Link(String longLink, User user) {
         this.longLink = longLink;
-//        this.userId = userId;
         this.user = user;
 
 
