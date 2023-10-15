@@ -5,7 +5,7 @@ PORT=9999;
 SECURITY_USER=user;
 SECURITY_PASS=default;
 
-LOCAL_DB_LINK=jdbc:h2:mem:shortlink;
+LOCAL_DB_LINK=jdbc:h2:mem:shortlink;DATABASE_TO_UPPER=false;
 LOCAL_DB_USERNAME=sa;
 LOCAL_DB_PASSWORD=password;
 
