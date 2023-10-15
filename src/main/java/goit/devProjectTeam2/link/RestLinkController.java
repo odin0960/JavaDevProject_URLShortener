@@ -1,7 +1,5 @@
 package goit.devProjectTeam2.link;
 
-;
-
 import goit.devProjectTeam2.entity.Link;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
