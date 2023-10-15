@@ -25,7 +25,8 @@ public class User {
     private String password;
     private String role;
 
-    @OneToMany(mappedBy = "userId")
+//    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "user")
     private Set<Link> links = new HashSet<>();
 
     public User() {

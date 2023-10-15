@@ -43,7 +43,8 @@ class LinkServiceTest {
                 .token("test1")
                 .createDate(Timestamp.valueOf("2023-10-09 16:34:29.72075"))
                 .expireDate(Timestamp.valueOf("2023-10-11 00:00:11.0"))
-                .userId(new User(1L))
+//                .userId(new User(1L))
+                .user(new User(1L))
                 .count(0L)
                 .build();
     }
@@ -96,7 +97,8 @@ class LinkServiceTest {
                 .token("test2")
                 .createDate(Timestamp.valueOf("2023-10-07 15:55:29.72075"))
                 .expireDate(Timestamp.valueOf("2023-10-10 13:33:11.0"))
-                .userId(new User(2L))
+//                .userId(new User(2L))
+                .user(new User(2L))
                 .count(1L)
                 .build();
 
@@ -120,12 +122,14 @@ class LinkServiceTest {
                 .token("test3")
                 .createDate(Timestamp.valueOf("2023-10-03 15:55:29.72075"))
                 .expireDate(Timestamp.valueOf("2023-10-12 13:33:11.0"))
-                .userId(new User(3L))
+//                .userId(new User(3L))
+                .user(new User(3L))
                 .count(1L)
                 .build();
         given(linkRepository.findAll()).willReturn(List.of(link, link3));
 
-        List<Link> linkList = linkService.listAllByUserId(link.getUserId().getUserId());
+//        List<Link> linkList = linkService.listAllByUserId(link.getUserId().getUserId());
+        List<Link> linkList = linkService.listAllByUserId(link.getUser().getUserId());
 
         assertThat(linkList).isNotNull();
         assertThat(linkList.size()).isEqualTo(1);
@@ -154,7 +158,8 @@ class LinkServiceTest {
                 .token("test4")
                 .createDate(Timestamp.valueOf("2023-10-04 15:55:29.72075"))
                 .expireDate(Timestamp.valueOf("2023-10-07 13:33:11.0"))
-                .userId(new User(3L))
+//                .userId(new User(3L))
+                .user(new User(3L))
                 .count(1L)
                 .build();
         given(linkRepository.findAll()).willReturn(List.of(link, link4));
