@@ -1,6 +1,7 @@
 package goit.devProjectTeam2.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,6 +25,7 @@ public class User {
     private String username;
     private String password;
     private String role;
+    private int enabled;
 
 //    @OneToMany(mappedBy = "userId")
     @OneToMany(mappedBy = "user")
