@@ -12,6 +12,6 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 //    @Query("from Users u where lower(u.username) like lower(:username)")
 //    User findUserByUsername(@Param("username") String username);
 
-    public Optional<User> findUserByUsername(String username);
-	public Optional<User> findUserByEmail(String email);
+    Optional<User> findUserByUsername(String username);
+	Optional<User> findUserByEmail(String email);
 }
