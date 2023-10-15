@@ -3,6 +3,7 @@ package goit.devProjectTeam2.link;
 ;
 
 import goit.devProjectTeam2.entity.Link;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,12 +24,14 @@ import java.util.NoSuchElementException;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/v1")
+@Tag(name="Лінк-контролер", description="операції з посиланнями")
 public class RestLinkController {
 
     private LinkService linkService;
 
     @GetMapping("/api/link/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @Tag(name="Лінк-контролер", description="операції з посиланнями")
     public Link findById(@PathVariable Long id) {
         try {
             return linkService.getById(id);

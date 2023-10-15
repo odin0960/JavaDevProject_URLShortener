@@ -1,21 +1,17 @@
 package goit.devProjectTeam2.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "users")
-@ToString
+@Schema(description = "Сутність користувача")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -27,7 +23,6 @@ public class User {
     private String role;
     private int enabled;
 
-//    @OneToMany(mappedBy = "userId")
     @OneToMany(mappedBy = "user")
     private Set<Link> links = new HashSet<>();
 

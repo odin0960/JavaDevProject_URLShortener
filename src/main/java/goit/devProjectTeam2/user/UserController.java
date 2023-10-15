@@ -7,6 +7,7 @@ import goit.devProjectTeam2.user.dto.RegistrationModel;
 import goit.devProjectTeam2.user.exception.IncorrectEmailException;
 import goit.devProjectTeam2.user.exception.IncorrectPasswordException;
 import goit.devProjectTeam2.user.exception.UserAlreadyExistException;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/user")
+@Tag(name="Перевірка та реєстрація користувача", description="ввести логін і пароль для перевірки або зареєструватись")
 public class UserController {
 
 	@Autowired

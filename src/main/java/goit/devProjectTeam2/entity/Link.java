@@ -1,6 +1,7 @@
 package goit.devProjectTeam2.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,15 +20,20 @@ import java.sql.Timestamp;
 @Table(name = "links")
 @AllArgsConstructor
 @Builder
+@Schema(description = "Сутність посилання")
 public class Link {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long linkId;
     @URL
+    @Schema(description = "Довга лінка", example = "https://github.com/orgs/goitacademy/repositories")
     private String longLink;
+    @Schema(description = "Токен, який вказує на довгу лінку", example = "2Fh6tW")
     private String token;
+    @Schema(description = "Дата створення токену для отримання скороченої лінки")
     @CreationTimestamp
     private Timestamp createDate;
+    @Schema(description = "Дата до якої дійсний токен")
     private Timestamp expireDate;
     @JsonBackReference
     @ManyToOne
