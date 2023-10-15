@@ -5,12 +5,10 @@ import goit.devProjectTeam2.entity.Link;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -50,7 +48,6 @@ public class LinkService implements ServiceInterface<Link> {
         List<Link> listAllForSpecifiedUserId = new ArrayList<>();
         listAll().stream().forEach(
                 l -> {
-//                    if (l.getUserId().getUserId().equals(id)) {
                     if (l.getUser().getUserId().equals(id)) {
                         listAllForSpecifiedUserId.add(l);
                     }

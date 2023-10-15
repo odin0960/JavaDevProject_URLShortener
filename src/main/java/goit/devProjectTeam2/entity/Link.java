@@ -18,7 +18,6 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Builder
 public class Link {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long linkId;
