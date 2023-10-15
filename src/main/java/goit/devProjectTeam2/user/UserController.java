@@ -32,9 +32,10 @@ public class UserController {
 	}
 
 	@PostMapping("/registration")
-	public ResponseEntity<?> login(@RequestBody RegistrationModel registrationModel) {
+	public ResponseEntity<?> registration(@RequestBody RegistrationModel registrationModel) {
 		try {
-			return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerNewCustomer(registrationModel));
+			userService.registerNewCustomer(registrationModel);
+			return ResponseEntity.status(HttpStatus.CREATED).body("User created");
 		} catch (UserAlreadyExistException | IncorrectPasswordException | IncorrectEmailException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}

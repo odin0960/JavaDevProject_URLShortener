@@ -57,7 +57,7 @@ public class UserService {
 				return userRepository.save(newUser);
 			}
 		}
-		throw new UserAlreadyExistException("User with email " + userEntityByEmail.get().getEmail() + " already exist");
+		throw new UserAlreadyExistException("User with email " + model.getEmail() + " already exist");
 	}
 
 
