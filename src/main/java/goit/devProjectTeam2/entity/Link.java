@@ -10,6 +10,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.URL;
 
 import java.sql.Timestamp;
 
@@ -22,6 +23,7 @@ public class Link {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long linkId;
+    @URL
     private String longLink;
     private String token;
     @CreationTimestamp
@@ -39,8 +41,6 @@ public class Link {
     public Link(String longLink, User user) {
         this.longLink = longLink;
         this.user = user;
-
-
     }
 
 }

@@ -1,10 +1,12 @@
 package goit.devProjectTeam2.link;
 
 import org.springframework.beans.factory.annotation.Value;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 //@ConfigurationProperties(prefix = "app")
@@ -47,8 +49,8 @@ public class LinkUtils {
 
     public static Timestamp calculateExpireDate() {
         long currentTime = System.currentTimeMillis();
-        long plus72Hours = currentTime + (validityPeriod * 60 * 60 * 1000);
-        return new Timestamp(plus72Hours);
+        long plusHours = currentTime + (validityPeriod * 60 * 60 * 1000);
+        return new Timestamp(plusHours);
     }
 
 }

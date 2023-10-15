@@ -1,13 +1,12 @@
 package goit.devProjectTeam2.link;
 
 import goit.devProjectTeam2.entity.Link;
-import goit.devProjectTeam2.entity.dto.LinkDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.sql.Timestamp;
 
@@ -32,23 +31,11 @@ public class LinkController {
         return modelAndView.addObject("link", link);
     }
 
-    @PostMapping(produces = "application/json", value = "/user/link/create")
-    public RedirectView createJson(@RequestBody LinkDTO linkDTO) {
-        RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("/v1/user/link/create");
-        Link link = new Link();
-        link.setLinkId(linkDTO.getLinkId());
-        linkService.add(link);
-        return redirectView;
-    }
-
     @PostMapping(value = "/user/link/create")
-    public RedirectView create(@ModelAttribute Link link) {
-        RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("/v1/user/link/create");
+    public ModelAndView createJson(@Valid @ModelAttribute("link") Link link) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/v1/user/allLinks");
         linkService.add(link);
-        linkService.increaseClickCounter(link.getCount());
-        return redirectView;
+        return modelAndView;
     }
 
     @GetMapping(value = "/user/allLinks")

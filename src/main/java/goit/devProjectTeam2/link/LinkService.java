@@ -5,6 +5,7 @@ import goit.devProjectTeam2.entity.Link;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class LinkService implements ServiceInterface<Link> {
 
     @Override
     public Link add(Link link) {
-        link.setToken(generateShortLink(link));
+        link.setToken(generateToken(link));
         link.setExpireDate(LinkUtils.calculateExpireDate());
         return linkRepository.save(link);
     }
@@ -66,13 +67,12 @@ public class LinkService implements ServiceInterface<Link> {
         return linkListWithExpirationDateMoreThenExpected;
     }
 
-    public String generateShortLink(Link link) {
-        String shortLink = "";
+    public String generateToken(Link link) {
+        String token = "";
         if (link.getLongLink() != null && link.getLongLink().startsWith("http")) {
-            link.getLongLink().replaceFirst("^https?:\\/\\/", "");
-            shortLink = LinkUtils.generate();
+            token = LinkUtils.generate();
         }
-        return shortLink;
+        return token;
     }
 
     @Transactional
