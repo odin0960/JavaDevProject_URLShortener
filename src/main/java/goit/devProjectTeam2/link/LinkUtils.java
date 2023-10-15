@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
-//@ConfigurationProperties(prefix = "app")
 public class LinkUtils {
 
     @Value("${app.validity_period}")
