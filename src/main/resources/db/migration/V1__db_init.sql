@@ -4,7 +4,8 @@ create TABLE IF NOT EXISTS users
     email    VARCHAR(200)  NOT NULL UNIQUE CHECK (email ~* '^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'),
     username VARCHAR(200)  NOT NULL UNIQUE CHECK (CHAR_LENGTH(username) >= 3),
     password VARCHAR(2000) NOT NULL CHECK (CHAR_LENGTH(password) >= 8),
-    role     VARCHAR(5)    NOT NULL DEFAULT 'USER'
+    role     VARCHAR(15)    NOT NULL DEFAULT 'ROLE_USER',
+    enabled  int not null
 );
 
 create TABLE IF NOT EXISTS links
@@ -19,8 +20,8 @@ create TABLE IF NOT EXISTS links
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-INSERT INTO users (email, username, password, role)
+INSERT INTO users (email, username, password, role, enabled)
 VALUES ('admin@mail.com',
         'admin',
         '$2a$12$..wl30OG0nSU.2zLp7mxaeFxbuVySaIgdvpfQinWunXHGIRMWbZd2', --admin
-        'ADMIN');
+        'ROLE_ADMIN',1);
