@@ -32,15 +32,6 @@ public class LinkValidator {
             }
         }
     }
-
-    // ???????????????
-    public static boolean linkValidator(LinkValidatorEntity urlToCheck) {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        Set<ConstraintViolation<LinkValidatorEntity>> violations = validator.validate(urlToCheck);
-        return violations.isEmpty();
-    }
-
      */
 
 
