@@ -35,6 +35,14 @@ public class LinkService implements ServiceInterface<Link> {
         return linkRepository.save(link);
     }
 
+    public Link validateLinkDoNotExpired(Link link) {
+        if (link.getExpireDate().after(new Timestamp(System.currentTimeMillis()))) {
+            return link;
+        } else {
+            throw new NoSuchElementException("Link has been expired!");
+        }
+    }
+
     @Override
     public void deleteById(Long id) {
         linkRepository.deleteById(id);

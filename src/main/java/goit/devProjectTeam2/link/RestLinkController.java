@@ -67,10 +67,11 @@ public class RestLinkController {
             throws IOException {
         try {
             Link longLinkByToken = linkService.getLinkByToken(token);
+            linkService.validateLinkDoNotExpired(longLinkByToken);
             linkService.increaseClickCounter(longLinkByToken.getLinkId());
             response.sendRedirect(longLinkByToken.getLongLink());
         } catch (NoSuchElementException e) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Link doesn't exist or has been expired!");
         }
     }
 

@@ -21,6 +21,7 @@ public class LinkController {
     @Cacheable(value = "links", key = "#token", sync = true)
     public ModelAndView redirectByToken(@PathVariable String token) {
         Link linkByToken = linkService.getLinkByToken(token);
+        linkService.validateLinkDoNotExpired(linkByToken);
         linkService.increaseClickCounter(linkByToken.getLinkId());
         return new ModelAndView("redirect:" + linkByToken.getLongLink());
     }
