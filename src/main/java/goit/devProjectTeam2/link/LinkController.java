@@ -3,7 +3,6 @@ package goit.devProjectTeam2.link;
 import goit.devProjectTeam2.entity.Link;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,7 +17,6 @@ public class LinkController {
     private final LinkService linkService;
 
     @GetMapping("/{token}")
-    @Cacheable(value = "links", key = "#token", sync = true)
     public ModelAndView redirectByToken(@PathVariable String token) {
         Link linkByToken = linkService.getLinkByToken(token);
         linkService.validateLinkDoNotExpired(linkByToken);

@@ -3,6 +3,7 @@ package goit.devProjectTeam2.link;
 import goit.devProjectTeam2.ServiceInterface;
 import goit.devProjectTeam2.entity.Link;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ public class LinkService implements ServiceInterface<Link> {
                 .orElseThrow(() -> new NoSuchElementException("Link with such id doesn't found"));
     }
 
+    @Cacheable(value = "links", key = "#token", sync = true)
     public Link getLinkByToken(String token) {
         return linkRepository.getLinkByToken(token)
                 .orElseThrow(() -> new NoSuchElementException("Link with such token doesn't found"));
