@@ -13,6 +13,8 @@ PROD_DB_LINK=jdbc:postgresql://shortlink-1.cjfbwpo4wfwq.eu-north-1.rds.amazonaws
 PROD_DB_USERNAME=userprod;
 PROD_DB_PASSWORD=postgrespass;
 
+APP_VERSION=v.1.0;
 TOKEN_LENGTH=5;
 VALIDITY_PERIOD=72;
-APP_VERSION=v.1.0;
+CACHE_SIZE=1000;
+CACHE_PERIOD_MINUTES=15;
