@@ -23,6 +23,7 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 import java.util.Optional;
@@ -57,9 +58,10 @@ public class SecurityConfig {
 				.cors(AbstractHttpConfigurer::disable)
 				.csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests((authz) -> authz
-						.requestMatchers("/v1/token/**").permitAll()
-						.requestMatchers("/v1/api/user/registration").permitAll()
-						.requestMatchers("/v1/api/user/login").permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/token/**")).permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/api/token/**")).permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/api/user/registration")).permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/api/user/login")).permitAll()
 						.anyRequest().authenticated()
 				)
 				.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
