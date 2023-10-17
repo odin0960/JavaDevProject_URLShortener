@@ -68,6 +68,7 @@ public class SecurityConfig {
 				)
 				.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.httpBasic(AbstractHttpConfigurer::disable)
+				.formLogin(form -> form.defaultSuccessUrl("/v1/allLinks"))
 				.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
