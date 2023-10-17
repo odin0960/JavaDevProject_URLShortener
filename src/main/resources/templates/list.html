@@ -13,13 +13,13 @@
 <body>
 
 <div class="container mt-3">
-    <div class="card">
+    <div class="card text-wrap">
         <div class="card-header">
             <span th:text="'Links: ' + ${links.size()}"></span>
-            <a href="/v1/user/link/create" class="btn btn-sm btn-outline-primary" type="submit">Create link</a>
-            <a href="/v1/user/activeLinks" class="btn btn-sm btn-outline-primary" type="submit">Show Active links</a>
+            <a href="/v1/user/link/create" class="btn btn-sm btn-outline-primary" type="submit" style="width: 9rem;">Create link</a>
+            <a href="/v1/user/activeLinks" class="btn btn-sm btn-outline-primary" type="submit" style="width: 9rem;">Show active links</a>
         </div>
-        <div class="card-body">
+        <div class="card-body text-wrap">
             <table class="table">
                 <tr>
                     <th>Short link</th>
@@ -36,8 +36,12 @@
                     <td th:text="${link.getLongLink()}"></td>
                     <td th:text="${link.getCount()}"></td>
                     <td>
-                        <a th:href="@{/v1/user/link/delete/{linkId}(linkId=${link.getLinkId()})}" class="btn btn-outline-danger btn-sm"
-                           type="submit">Delete</a>
+                        <form th:action="@{/v1/link/edit}" method="get">
+                        <a th:href="@{/v1/user/link/delete/{linkId}(linkId=${link.getLinkId()})}" class="btn btn-outline-danger btn-sm float-center"
+                           type="submit" style="width: 4rem; margin: 1%;">Delete</a>
+                            <input type="hidden" name="id" th:value="${link.getLinkId()}"/>
+                            <button class="btn btn-outline-primary btn-sm float-center" type="submit" style="width: 4rem; margin: 1%;">Edit</button>
+                        </form>
                     </td>
                     </form>
                 </tr>

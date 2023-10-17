@@ -61,4 +61,19 @@ public class LinkController {
         return modelAndView;
     }
 
+    @GetMapping("/link/edit")
+    public ModelAndView edit(@RequestParam("id") Long id) {
+        ModelAndView modelAndView = new ModelAndView("edit");
+        Link link = linkService.getById(id);
+        modelAndView.addObject("link", link);
+        return modelAndView;
+    }
+
+    @PostMapping("/link/edit")
+    public ModelAndView editLink(@ModelAttribute("link") Link link) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/v1/allLinks");
+        linkService.updateLink(link);
+        return modelAndView;
+    }
+
 }
