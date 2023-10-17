@@ -16,8 +16,8 @@
     <div class="card">
         <div class="card-header">
             <span th:text="'Active Links: ' + ${activeLinks.size()}"></span>
-            <a href="/v1/user/link/create" class="btn btn-sm btn-outline-primary" type="submit">Create link</a>
-            <a href="/v1/user/allLinks" class="btn btn-sm btn-outline-primary" type="submit">Show All Links</a>
+            <a href="/v1/link/create" class="btn btn-sm btn-outline-primary" type="submit">Create link</a>
+            <a href="/v1/allLinks" class="btn btn-sm btn-outline-primary" type="submit">Show All Links</a>
         </div>
         <div class="card-body">
             <table class="table">
@@ -31,12 +31,12 @@
                 <tr th:each="link: ${activeLinks}">
                     <td>
                         <a th:text="${link.getToken()}"
-                           th:href="@{/v1/{token}(token=${link.getToken()})}" target="_blank" type="submit"></a>
+                           th:href="@{/v1/token/{token}(token=${link.getToken()})}" target="_blank" type="submit"></a>
                     </td>
                     <td th:text="${link.getLongLink()}"></td>
                     <td th:text="${link.getCount()}"></td>
                     <td>
-                        <a th:href="@{/v1/user/link/delete/{linkId}(linkId=${link.getLinkId()})}" class="btn btn-outline-danger btn-sm"
+                        <a th:href="@{/v1/link/delete/{linkId}(linkId=${link.getLinkId()})}" class="btn btn-outline-danger btn-sm"
                            type="submit">Delete</a>
                     </td>
                     </form>
