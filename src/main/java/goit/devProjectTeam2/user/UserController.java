@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/v1/api/user")
 @Tag(name="Перевірка та реєстрація користувача", description="ввести логін і пароль для перевірки або зареєструватись")
 public class UserController {
 

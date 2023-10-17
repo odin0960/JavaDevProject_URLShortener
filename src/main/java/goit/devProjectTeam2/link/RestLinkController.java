@@ -42,24 +42,24 @@ public class RestLinkController {
         }
     }
 
-    @PostMapping("/api/user/link/create")
+    @PostMapping("/api/link/create")
     @ResponseStatus(HttpStatus.OK)
     public Link add(Link link) {
         return linkService.add(link);
     }
 
-    @GetMapping("/api/user/allLinks")
+    @GetMapping("/api/allLinks")
     @ResponseStatus(HttpStatus.OK)
     public List<Link> findAllLinks() {
         return linkService.listAll();
     }
 
-    @GetMapping(value = "/api/user/activeLinks")
+    @GetMapping(value = "/api/activeLinks")
     public List<Link> getActiveLinks() {
         return linkService.findAllMoreThenExpirationDate(new Timestamp(System.currentTimeMillis()));
     }
 
-    @DeleteMapping("/api/user/link/delete/{linkId}")
+    @DeleteMapping("/api/link/delete/{linkId}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable long linkId) {
         linkService.deleteById(linkId);

@@ -3,7 +3,6 @@ package goit.devProjectTeam2.link;
 import goit.devProjectTeam2.entity.Link;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,8 +16,7 @@ public class LinkController {
 
     private final LinkService linkService;
 
-    @GetMapping("/{token}")
-    @Cacheable(value = "links", key = "#token", sync = true)
+    @GetMapping("/token/{token}")
     public ModelAndView redirectByToken(@PathVariable String token) {
         Link linkByToken = linkService.getLinkByToken(token);
         linkService.validateLinkDoNotExpired(linkByToken);
@@ -26,27 +24,27 @@ public class LinkController {
         return new ModelAndView("redirect:" + linkByToken.getLongLink());
     }
 
-    @GetMapping("/user/link/create")
+    @GetMapping("/link/create")
     public ModelAndView getCreatePage(Link link) {
         ModelAndView modelAndView = new ModelAndView("create");
         return modelAndView.addObject("link", link);
     }
 
-    @PostMapping(value = "/user/link/create")
+    @PostMapping(value = "/link/create")
     public ModelAndView createJson(@Valid @ModelAttribute("link") Link link) {
         ModelAndView modelAndView = new ModelAndView("redirect:/v1/user/allLinks");
         linkService.add(link);
         return modelAndView;
     }
 
-    @GetMapping(value = "/user/allLinks")
+    @GetMapping(value = "/allLinks")
     public ModelAndView getAllLinks() {
         ModelAndView modelAndView = new ModelAndView("list");
         modelAndView.addObject("links", linkService.listAll());
         return modelAndView;
     }
 
-    @GetMapping(value = "/user/activeLinks")
+    @GetMapping(value = "/activeLinks")
     public ModelAndView getActiveLinks() {
         ModelAndView modelAndView = new ModelAndView("activeLinks");
         modelAndView.addObject("activeLinks",
@@ -54,7 +52,7 @@ public class LinkController {
         return modelAndView;
     }
 
-    @RequestMapping("/user/link/delete/{linkId}")
+    @RequestMapping("/link/delete/{linkId}")
     public ModelAndView delete(@PathVariable("linkId") long linkId) {
         ModelAndView modelAndView = new ModelAndView("redirect:/v1/user/allLinks");
         linkService.deleteById(linkId);

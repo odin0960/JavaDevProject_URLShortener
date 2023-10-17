@@ -5,6 +5,7 @@ import goit.devProjectTeam2.entity.User;
 import goit.devProjectTeam2.security.jwt.JwtRequestFilter;
 import goit.devProjectTeam2.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +23,7 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 import java.util.Optional;
@@ -56,7 +58,12 @@ public class SecurityConfig {
 				.cors(AbstractHttpConfigurer::disable)
 				.csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests((authz) -> authz
-						.anyRequest().permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/**")).permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/token/**")).permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/api/token/**")).permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/api/user/registration")).permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/api/user/login")).permitAll()
+						.anyRequest().authenticated()
 				)
 				.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.httpBasic(AbstractHttpConfigurer::disable)
