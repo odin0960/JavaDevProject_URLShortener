@@ -36,7 +36,7 @@ public class LinkUtils {
 
         StringBuilder result = new StringBuilder();
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < tokenLength; i++) {
             Collections.shuffle(characters);
             result.append(characters.get(0));
         }
@@ -46,7 +46,7 @@ public class LinkUtils {
 
     public static Timestamp calculateExpireDate() {
         long currentTime = System.currentTimeMillis();
-        long plusHours = currentTime + (72 * 60 * 60 * 1000);
+        long plusHours = currentTime + (validityPeriod * 60 * 60 * 1000);
         return new Timestamp(plusHours);
     }
 
