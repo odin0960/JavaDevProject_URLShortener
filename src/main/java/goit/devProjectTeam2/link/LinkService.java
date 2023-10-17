@@ -32,13 +32,17 @@ public class LinkService implements ServiceInterface<Link> {
 
     @Override
     public Link add(Link link) {
-        if(LinkValidator.linkValid(link.getLongLink())) {
-            link.setToken(generateToken(link));
-            link.setExpireDate(LinkUtils.calculateExpireDate());
-            return linkRepository.save(link);
-        } else {
-            throw new NoSuchElementException("Link is not valid!");
-        }
+        link.setToken(generateToken(link));
+        link.setExpireDate(LinkUtils.calculateExpireDate());
+        return linkRepository.save(link);
+
+//        if(LinkValidator.linkValid(link.getLongLink())) {
+//            link.setToken(generateToken(link));
+//            link.setExpireDate(LinkUtils.calculateExpireDate());
+//            return linkRepository.save(link);
+//        } else {
+//            throw new NoSuchElementException("Link is not valid!");
+//        }
     }
 
     public Link validateLinkDoNotExpired(Link link) {

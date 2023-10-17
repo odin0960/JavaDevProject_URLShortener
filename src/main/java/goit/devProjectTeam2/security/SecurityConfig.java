@@ -58,7 +58,7 @@ public class SecurityConfig {
 				.cors(AbstractHttpConfigurer::disable)
 				.csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests((authz) -> authz
-//						.requestMatchers(AntPathRequestMatcher.antMatcher("/**")).permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/**")).permitAll()
 						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/token/**")).permitAll()
 						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/api/token/**")).permitAll()
 						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/api/user/registration")).permitAll()
