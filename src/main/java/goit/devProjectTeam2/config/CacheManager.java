@@ -27,8 +27,8 @@ public class CacheManager {
                 return new ConcurrentMapCache(
                         name,
                         CacheBuilder.newBuilder()
-                                .maximumSize(cacheSize)
-                                .expireAfterWrite(cachePeriod, TimeUnit.MINUTES)
+                                .maximumSize(ProjectConstant.CACHE_SIZE)
+                                .expireAfterWrite(ProjectConstant.CACHE_PERIOD_MINUTES, TimeUnit.MINUTES)
                                 .build().asMap(),
                         false);
             }

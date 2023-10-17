@@ -1,5 +1,6 @@
 package goit.devProjectTeam2.link;
 
+import goit.devProjectTeam2.config.ProjectConstant;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.Timestamp;
@@ -36,7 +37,7 @@ public class LinkUtils {
 
         StringBuilder result = new StringBuilder();
 
-        for (int i = 0; i < tokenLength; i++) {
+        for (int i = 0; i < ProjectConstant.TOKEN_LENGTH; i++) {
             Collections.shuffle(characters);
             result.append(characters.get(0));
         }
@@ -46,7 +47,7 @@ public class LinkUtils {
 
     public static Timestamp calculateExpireDate() {
         long currentTime = System.currentTimeMillis();
-        long plusHours = currentTime + (validityPeriod * 60 * 60 * 1000);
+        long plusHours = currentTime + (ProjectConstant.VALIDITY_PERIOD_HOURS * 60 * 60 * 1000);
         return new Timestamp(plusHours);
     }
 
