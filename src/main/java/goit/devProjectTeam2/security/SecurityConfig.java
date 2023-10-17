@@ -62,6 +62,8 @@ public class SecurityConfig {
 						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/api/token/**")).permitAll()
 						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/api/user/registration")).permitAll()
 						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/api/user/login")).permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/swagger-ui/**")).permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/v3/api-docs/**")).permitAll()
 						.anyRequest().authenticated()
 				)
 				.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
