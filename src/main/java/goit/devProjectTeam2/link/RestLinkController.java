@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @AllArgsConstructor
@@ -73,6 +76,11 @@ public class RestLinkController {
         } catch (NoSuchElementException e) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Link doesn't exist or has been expired!");
         }
+    }
+
+    @PutMapping(value = "/api/link/edit/{linkId}")
+    public void update(@PathVariable long linkId, @RequestBody Map<String, Object> payload) {
+        linkService.updateLinkViaApi(linkId, String.valueOf(payload.get("longLink")));
     }
 
 }

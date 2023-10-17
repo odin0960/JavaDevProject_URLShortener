@@ -101,4 +101,20 @@ public class LinkService implements ServiceInterface<Link> {
         return linkRepository.save(recievedLink);
     }
 
+    public void updateLinkViaApi(Long linkId, String newLongLink) {
+        Link newLink = linkRepository.getReferenceById(linkId);
+        newLink.setExpireDate(LinkUtils.calculateExpireDate());
+        newLink.setLongLink(newLongLink);
+        newLink.setCount(0L);
+        linkRepository.save(newLink);
+    }
+
+    public void updateLink(Link link) {
+        Link newLink = linkRepository.getReferenceById(link.getLinkId());
+        newLink.setExpireDate(LinkUtils.calculateExpireDate());
+        newLink.setLongLink(link.getLongLink());
+        newLink.setCount(0L);
+        linkRepository.save(newLink);
+    }
+
 }
