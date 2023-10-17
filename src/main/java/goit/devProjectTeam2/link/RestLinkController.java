@@ -4,7 +4,9 @@ import goit.devProjectTeam2.entity.Link;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,14 +27,14 @@ import java.util.NoSuchElementException;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/v1")
-@Tag(name="Лінк-контролер", description="операції з посиланнями")
+@Tag(name = "Лінк-контролер", description = "операції з посиланнями")
 public class RestLinkController {
 
     private LinkService linkService;
 
     @GetMapping("/api/link/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @Tag(name="Лінк-контролер", description="операції з посиланнями")
+    @Tag(name = "Лінк-контролер", description = "операції з посиланнями")
     public Link findById(@PathVariable Long id) {
         try {
             return linkService.getById(id);
@@ -43,29 +45,37 @@ public class RestLinkController {
     }
 
     @PostMapping("/api/link/create")
-    @ResponseStatus(HttpStatus.OK)
-    public Link add(Link link) {
-        return linkService.add(link);
+    public ResponseEntity<?> add(@RequestBody Link link) {
+        try {
+            linkService.add(link);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Link is created!");
+        } catch (IllegalArgumentException | OptimisticLockingFailureException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/api/allLinks")
     @ResponseStatus(HttpStatus.OK)
-    public List<Link> findAllLinks() {
-        return linkService.listAll();
+    public List<Link> findAllLinksForUser() {
+        return linkService.listAllForUser();
     }
 
     @GetMapping(value = "/api/activeLinks")
-    public List<Link> getActiveLinks() {
+    public List<Link> getActiveLinksForUser() {
         return linkService.findAllMoreThenExpirationDate(new Timestamp(System.currentTimeMillis()));
     }
 
     @DeleteMapping("/api/link/delete/{linkId}")
-    @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable long linkId) {
-        linkService.deleteById(linkId);
+    public ResponseEntity<?> delete(@PathVariable long linkId) {
+        try {
+            linkService.deleteById(linkId);
+            return ResponseEntity.status(HttpStatus.OK).body("Link is deleted!");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
-    @GetMapping("/api/{token}")
+    @GetMapping("/api/token/{token}")
     void redirectFromToken(@PathVariable String token, HttpServletResponse response)
             throws IOException {
         try {
@@ -79,8 +89,14 @@ public class RestLinkController {
     }
 
     @PutMapping(value = "/api/link/edit/{linkId}")
-    public void update(@PathVariable long linkId, @RequestBody Map<String, Object> payload) {
-        linkService.updateLinkViaApi(linkId, String.valueOf(payload.get("longLink")));
+    public ResponseEntity<?> update(@PathVariable long linkId, @RequestBody Map<String, Object> payload) {
+        try {
+            linkService.updateLinkViaApi(linkId, String.valueOf(payload.get("longLink")));
+            return ResponseEntity.status(HttpStatus.OK).body("Link is updated!");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 
 }
