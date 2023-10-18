@@ -32,7 +32,7 @@ public class LinkController {
 
     @PostMapping(value = "/link/create")
     public ModelAndView createJson(@Valid @ModelAttribute("link") Link link) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/v1/user/allLinks");
+        ModelAndView modelAndView = new ModelAndView("redirect:/v1/allLinks");
         linkService.add(link);
         return modelAndView;
     }
@@ -54,7 +54,7 @@ public class LinkController {
 
     @RequestMapping("/link/delete/{linkId}")
     public ModelAndView delete(@PathVariable("linkId") long linkId) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/v1/user/allLinks");
+        ModelAndView modelAndView = new ModelAndView("redirect:/v1/allLinks");
         linkService.deleteById(linkId);
         return modelAndView;
     }
