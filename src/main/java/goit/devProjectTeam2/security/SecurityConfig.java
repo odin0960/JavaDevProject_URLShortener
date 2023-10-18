@@ -9,9 +9,12 @@ import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.SecurityBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
@@ -23,6 +26,7 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 import java.util.Optional;
@@ -56,10 +60,14 @@ public class SecurityConfig {
 		http
 				.cors(AbstractHttpConfigurer::disable)
 				.csrf(AbstractHttpConfigurer::disable)
+				.formLogin(login -> login.loginPage("/v1/api/user/login").permitAll())
 				.authorizeHttpRequests((authz) -> authz
-						.requestMatchers("/v1/token/**").permitAll()
-						.requestMatchers("/v1/api/user/registration").permitAll()
-						.requestMatchers("/v1/api/user/login").permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/token/**")).permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/api/token/**")).permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/api/user/registration")).permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/api/user/login")).permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/swagger-ui/**")).permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/v3/api-docs/**")).permitAll()
 						.anyRequest().authenticated()
 				)
 				.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -103,6 +111,10 @@ public class SecurityConfig {
 		}
 		throw new UsernameNotFoundException("User not found");
 	}
+
+
+
+
 }
 
 

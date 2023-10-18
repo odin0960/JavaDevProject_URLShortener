@@ -18,6 +18,8 @@ ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "app.jar"]
 
 
 #to build
-#docker build -t linkshortener:1.0 .
+#docker build -t <имя>/<репозиторий/имя проекта>:версия .
+#docker build -t t2/linkshortener:1.0 .
 #run
-#docker run -d -p 9999:9999 -t linkshortener:1.0
+#docker run <container-id>
+#docker run -d -p 9999:9999 -t t2/linkshortener:1.0

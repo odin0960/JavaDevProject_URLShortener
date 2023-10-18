@@ -4,6 +4,7 @@ import goit.devProjectTeam2.entity.Link;
 import goit.devProjectTeam2.entity.User;
 import goit.devProjectTeam2.link.LinkRepository;
 import goit.devProjectTeam2.link.LinkService;
+import goit.devProjectTeam2.security.SecurityConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
@@ -34,6 +35,9 @@ class LinkServiceTest {
     @InjectMocks
     private LinkService linkService;
     private Link link;
+    @InjectMocks
+    private SecurityConfig securityConfig ;
+    private User user;
 
     @BeforeEach
     public void setup() {
@@ -97,7 +101,6 @@ class LinkServiceTest {
                 .token("test2")
                 .createDate(Timestamp.valueOf("2023-10-07 15:55:29.72075"))
                 .expireDate(Timestamp.valueOf("2023-10-10 13:33:11.0"))
-//                .userId(new User(2L))
                 .user(new User(2L))
                 .count(1L)
                 .build();
@@ -122,14 +125,12 @@ class LinkServiceTest {
                 .token("test3")
                 .createDate(Timestamp.valueOf("2023-10-03 15:55:29.72075"))
                 .expireDate(Timestamp.valueOf("2023-10-12 13:33:11.0"))
-//                .userId(new User(3L))
                 .user(new User(3L))
                 .count(1L)
                 .build();
         given(linkRepository.findAll()).willReturn(List.of(link, link3));
 
-//        List<Link> linkList = linkService.listAllByUserId(link.getUserId().getUserId());
-        List<Link> linkList = linkService.listAllByUserId(link.getUser().getUserId());
+        List<Link> linkList = linkService.listAllForUser();
 
         assertThat(linkList).isNotNull();
         assertThat(linkList.size()).isEqualTo(1);
@@ -142,7 +143,7 @@ class LinkServiceTest {
     void givenNonExistUserIdThenShouldReturnListOfAllListsByThatUserId() {
         given(linkRepository.findAll()).willReturn(List.of(link));
 
-        List<Link> linkList = linkService.listAllByUserId(10L);
+        List<Link> linkList = linkService.listAllForUser();
 
         assertThat(linkList).isNotNull();
         assertThat(linkList.size()).isZero();
@@ -158,7 +159,6 @@ class LinkServiceTest {
                 .token("test4")
                 .createDate(Timestamp.valueOf("2023-10-04 15:55:29.72075"))
                 .expireDate(Timestamp.valueOf("2023-10-07 13:33:11.0"))
-//                .userId(new User(3L))
                 .user(new User(3L))
                 .count(1L)
                 .build();

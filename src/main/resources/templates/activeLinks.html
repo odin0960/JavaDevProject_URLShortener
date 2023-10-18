@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>List</title>
+    <title>Active links list</title>
 
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
@@ -13,13 +13,13 @@
 <body>
 
 <div class="container mt-3">
-    <div class="card">
+    <div class="card text-wrap">
         <div class="card-header">
             <span th:text="'Active Links: ' + ${activeLinks.size()}"></span>
-            <a href="/v1/user/link/create" class="btn btn-sm btn-outline-primary" type="submit">Create link</a>
-            <a href="/v1/user/allLinks" class="btn btn-sm btn-outline-primary" type="submit">Show All Links</a>
+            <a href="/v1/link/create" class="btn btn-sm btn-outline-primary" type="submit" style="width: 9rem;">Create link</a>
+            <a href="/v1/allLinks" class="btn btn-sm btn-outline-primary" type="submit" style="width: 9rem;" >Show all Links</a>
         </div>
-        <div class="card-body">
+        <div class="card-body text-wrap">
             <table class="table">
                 <tr>
                     <th>Short link</th>
@@ -31,13 +31,17 @@
                 <tr th:each="link: ${activeLinks}">
                     <td>
                         <a th:text="${link.getToken()}"
-                           th:href="@{/v1/{token}(token=${link.getToken()})}" target="_blank" type="submit"></a>
+                           th:href="@{/v1/token/{token}(token=${link.getToken()})}" target="_blank" type="submit"></a>
                     </td>
                     <td th:text="${link.getLongLink()}"></td>
                     <td th:text="${link.getCount()}"></td>
                     <td>
-                        <a th:href="@{/v1/user/link/delete/{linkId}(linkId=${link.getLinkId()})}" class="btn btn-outline-danger btn-sm"
-                           type="submit">Delete</a>
+                        <form th:action="@{/v1/link/edit}" method="get">
+                            <a th:href="@{/v1/link/delete/{linkId}(linkId=${link.getLinkId()})}" class="btn btn-outline-danger btn-sm float-center"
+                               type="submit" style="width: 4rem; margin: 1%;">Delete</a>
+                            <input type="hidden" name="id" th:value="${link.getLinkId()}"/>
+                            <button class="btn btn-outline-primary btn-sm float-center" type="submit" style="width: 4rem; margin: 1%;">Edit</button>
+                        </form>
                     </td>
                     </form>
                 </tr>
