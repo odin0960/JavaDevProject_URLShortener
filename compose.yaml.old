@@ -1,6 +1,7 @@
+version: '3'
 
 services:
-  postgres:
+  postgres-prod:
     image: 'postgres:latest'
     environment:
       - 'POSTGRES_DB=jdbc:postgresql://shortlink-1.cjfbwpo4wfwq.eu-north-1.rds.amazonaws.com:5432/shortlink_db'
@@ -8,3 +9,15 @@ services:
       - 'POSTGRES_USER=postgrespass'
     ports:
       - '5432'
+
+
+  myapp-main:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: amarin/url-shortener
+    restart: on-failure
+    depends_on:
+      - postgres-prod
+    ports:
+      - 9999:9999
