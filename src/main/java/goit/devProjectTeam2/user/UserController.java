@@ -11,35 +11,44 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @RequestMapping("/v1/api/user")
-@Tag(name="Перевірка та реєстрація користувача", description="ввести логін і пароль для перевірки або зареєструватись")
+@Tag(name = "Перевірка та реєстрація користувача", description = "ввести логін і пароль для перевірки або зареєструватись")
 public class UserController {
 
 	@Autowired
 	private UserService userService;
 
+	@GetMapping("/login")
+	public ModelAndView loginGetPage() {
+			return new ModelAndView("login");
+	}
+
+	@GetMapping("/registration")
+	public ModelAndView registrationGetPage() {
+		return new ModelAndView("registration");
+	}
+
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody LoginModel loginModel) {
+	public ModelAndView login(@RequestParam LoginModel loginModel) {
 		try {
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(userService.loginUser(loginModel));
+			userService.loginUser(loginModel);
+			return new ModelAndView("list");
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
+			return new ModelAndView("test-login");
 		}
 	}
 
 	@PostMapping("/registration")
-	public ResponseEntity<?> registration(@RequestBody RegistrationModel registrationModel) {
+	public ModelAndView registration(@RequestParam RegistrationModel registrationModel) {
 		try {
 			userService.registerNewCustomer(registrationModel);
-			return ResponseEntity.status(HttpStatus.CREATED).body("User created");
+			return new ModelAndView("login");
 		} catch (UserAlreadyExistException | IncorrectPasswordException | IncorrectEmailException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
+			return new ModelAndView("test-login");
 		}
 	}
 }
