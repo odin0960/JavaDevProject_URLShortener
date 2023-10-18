@@ -26,13 +26,13 @@ import java.util.NoSuchElementException;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/api/v1")
 @Tag(name = "Лінк-контролер", description = "операції з посиланнями")
 public class RestLinkController {
 
     private LinkService linkService;
 
-    @GetMapping("/api/link/{id}")
+    @GetMapping("/link/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Tag(name = "Лінк-контролер", description = "операції з посиланнями")
     public Link findById(@PathVariable Long id) {
@@ -44,7 +44,7 @@ public class RestLinkController {
         }
     }
 
-    @PostMapping("/api/link/create")
+    @PostMapping("/link/create")
     public ResponseEntity<?> add(@RequestBody Link link) {
         try {
             linkService.add(link);
@@ -54,18 +54,18 @@ public class RestLinkController {
         }
     }
 
-    @GetMapping("/api/allLinks")
+    @GetMapping("/allLinks")
     @ResponseStatus(HttpStatus.OK)
     public List<Link> findAllLinksForUser() {
         return linkService.listAllForUser();
     }
 
-    @GetMapping(value = "/api/activeLinks")
+    @GetMapping(value = "/activeLinks")
     public List<Link> getActiveLinksForUser() {
         return linkService.findAllMoreThenExpirationDate(new Timestamp(System.currentTimeMillis()));
     }
 
-    @DeleteMapping("/api/link/delete/{linkId}")
+    @DeleteMapping("/link/delete/{linkId}")
     public ResponseEntity<?> delete(@PathVariable long linkId) {
         try {
             linkService.deleteById(linkId);
@@ -75,7 +75,7 @@ public class RestLinkController {
         }
     }
 
-    @GetMapping("/api/token/{token}")
+    @GetMapping("/token/{token}")
     void redirectFromToken(@PathVariable String token, HttpServletResponse response)
             throws IOException {
         try {
@@ -88,7 +88,7 @@ public class RestLinkController {
         }
     }
 
-    @PutMapping(value = "/api/link/edit/{linkId}")
+    @PutMapping(value = "/link/edit/{linkId}")
     public ResponseEntity<?> update(@PathVariable long linkId, @RequestBody Map<String, Object> payload) {
         try {
             linkService.updateLinkViaApi(linkId, String.valueOf(payload.get("longLink")));

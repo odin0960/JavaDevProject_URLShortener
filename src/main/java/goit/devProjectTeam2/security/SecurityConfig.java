@@ -59,9 +59,9 @@ public class SecurityConfig {
 				.csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests((authz) -> authz
 						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/token/**")).permitAll()
-						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/api/token/**")).permitAll()
-						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/api/user/registration")).permitAll()
-						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/api/user/login")).permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/token/**")).permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/user/registration")).permitAll()
+						.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/user/login")).permitAll()
 						.requestMatchers(AntPathRequestMatcher.antMatcher("/swagger-ui/**")).permitAll()
 						.requestMatchers(AntPathRequestMatcher.antMatcher("/v3/api-docs/**")).permitAll()
 						.anyRequest().authenticated()
