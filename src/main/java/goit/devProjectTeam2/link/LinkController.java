@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 @RequestMapping("/v1")
 public class LinkController {
 
+    public static final String ALL_LINKS = "redirect:/v1/allLinks";
     private final LinkService linkService;
 
     @GetMapping("/token/{token}")
@@ -32,7 +33,7 @@ public class LinkController {
 
     @PostMapping(value = "/link/create")
     public ModelAndView createJson(@Valid @ModelAttribute("link") Link link) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/v1/allLinks");
+        ModelAndView modelAndView = new ModelAndView(ALL_LINKS);
         linkService.add(link);
         return modelAndView;
     }
@@ -40,7 +41,7 @@ public class LinkController {
     @GetMapping(value = "/allLinks")
     public ModelAndView getAllLinks() {
         ModelAndView modelAndView = new ModelAndView("list");
-        modelAndView.addObject("links", linkService.listAll());
+        modelAndView.addObject("links", linkService.listAllForUser());
         return modelAndView;
     }
 
@@ -54,7 +55,7 @@ public class LinkController {
 
     @RequestMapping("/link/delete/{linkId}")
     public ModelAndView delete(@PathVariable("linkId") long linkId) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/v1/allLinks");
+        ModelAndView modelAndView = new ModelAndView(ALL_LINKS);
         linkService.deleteById(linkId);
         return modelAndView;
     }
@@ -69,7 +70,7 @@ public class LinkController {
 
     @PostMapping("/link/edit")
     public ModelAndView editLink(@ModelAttribute("link") Link link) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/v1/allLinks");
+        ModelAndView modelAndView = new ModelAndView(ALL_LINKS);
         linkService.updateLink(link);
         return modelAndView;
     }

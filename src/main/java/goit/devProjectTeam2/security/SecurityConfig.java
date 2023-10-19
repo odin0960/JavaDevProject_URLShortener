@@ -5,7 +5,6 @@ import goit.devProjectTeam2.entity.User;
 import goit.devProjectTeam2.security.jwt.JwtRequestFilter;
 import goit.devProjectTeam2.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,7 +12,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,82 +29,76 @@ import java.util.Optional;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
-	@Autowired
-	private JwtRequestFilter jwtRequestFilter;
-	@Autowired
-	private AuthenticationConfiguration authenticationConfiguration;
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
+    @Autowired
+    private AuthenticationConfiguration authenticationConfiguration;
 
-//	@Bean
-//	public CorsFilter corsFilter() {
-//		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//		CorsConfiguration config = new CorsConfiguration();
-//		config.setAllowCredentials(true);
-//		config.addAllowedOrigin("http://localhost:8089");
-//		config.addAllowedHeader("*");
-//		config.addAllowedMethod("*");
-//		source.registerCorsConfiguration("/**", config);
-//		return new CorsFilter(source);
-//	}
+    @Autowired
+    private UserRepository userRepository;
 
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http
-				.cors(AbstractHttpConfigurer::disable)
-				.csrf(AbstractHttpConfigurer::disable)
-				.authorizeHttpRequests((authz) -> authz
-						.requestMatchers(AntPathRequestMatcher.antMatcher("/v1/token/**")).permitAll()
-						.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/token/**")).permitAll()
-						.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/user/registration")).permitAll()
-						.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/user/login")).permitAll()
-						.requestMatchers(AntPathRequestMatcher.antMatcher("/swagger-ui/**")).permitAll()
-						.requestMatchers(AntPathRequestMatcher.antMatcher("/v3/api-docs/**")).permitAll()
-						.anyRequest().authenticated()
-				)
-				.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.httpBasic(AbstractHttpConfigurer::disable)
-				.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-		return http.build();
-	}
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+        http
+                .cors(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
+                .formLogin(login -> login.loginPage("/login")
+                        .defaultSuccessUrl("/v1/allLinks", true)
+                        .failureUrl("/login"))
+                .authorizeHttpRequests((authz) -> authz
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/v1/token/**")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/token/**")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/user/registration")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/user/login")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/login")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/registration")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/swagger-ui/**")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/v3/api-docs/**")).permitAll()
+                        .anyRequest().authenticated()
+                )
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        return http.build();
+    }
 
 
-	@Bean
-	public UserDetailsManager users(DataSource dataSource) {
-		JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-		users.setUsersByUsernameQuery("select username, password, enabled from users where username=?");
-		users.setAuthoritiesByUsernameQuery("select username, role from users where username=?");
-		return users;
-	}
-
-	@Bean
-	public AuthenticationManager authenticationManager () throws Exception {
-		return authenticationConfiguration.getAuthenticationManager();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 
-	public Authentication getAuth(){
-		return SecurityContextHolder.getContext().getAuthentication();
-	}
+    @Bean
+    public UserDetailsManager users(DataSource dataSource) {
+        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
+        users.setUsersByUsernameQuery("select username, password, enabled from users where username=?");
+        users.setAuthoritiesByUsernameQuery("select username, role from users where username=?");
+        return users;
+    }
 
-	public User getAuthenticatedUser() throws UsernameNotFoundException {
+    @Bean
+    public AuthenticationManager authenticationManager() throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
 
-		Authentication auth = getAuth();
-		if (auth != null && auth.isAuthenticated()) {
-			Optional<User> userByUsername = userRepository.findUserByUsername(auth.getName());
-			if (userByUsername.isPresent()) {
-				return userByUsername.get();
-			}
-		}
-		throw new UsernameNotFoundException("User not found");
-	}
+
+    public Authentication getAuth() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+
+    public User getAuthenticatedUser() throws UsernameNotFoundException {
+
+        Authentication auth = getAuth();
+        if (auth != null && auth.isAuthenticated()) {
+            Optional<User> userByUsername = userRepository.findUserByUsername(auth.getName());
+            if (userByUsername.isPresent()) {
+                return userByUsername.get();
+            }
+        }
+        throw new UsernameNotFoundException("User not found");
+    }
+
 }
 
 
